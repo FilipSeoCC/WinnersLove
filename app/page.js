@@ -98,3 +98,209 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const yesHandledRef = useRef(false);
   const sendingRef = useRef(false);
+
+  const years = useMemo(() => {
+    const currentYear = now.getFullYear();
+    return Array.from({ length: 5 }, (_, index) => currentYear + index);
+  }, [now]);
+
+  const days = useMemo(() => {
+    const count = getDaysInMonth(Number(year), Number(month));
+    return Array.from({ length: count }, (_, index) => index + 1);
+  }, [year, month]);
+
+  useEffect(() => {
+    const maxDay = getDaysInMonth(Number(year), Number(month));
+    if (day > maxDay) {
+      setDay(maxDay);
+    }
+  }, [day, month, year]);
+
+  const formattedDate = useMemo(() => {
+    const paddedDay = String(day).padStart(2, "0");
+    const paddedMonth = String(month).padStart(2, "0");
+    return `${paddedDay}.${paddedMonth}.${year} o ${hour}`;
+  }, [day, month, year, hour]);
+
+  function handleYes(event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    if (yesHandledRef.current || happy || step !== "question") {
+      return;
+    }
+
+    yesHandledRef.current = true;
+    setHappy(true);
+    setMessage("");
+    window.setTimeout(() => setStep("calendar"), 950);
+  }
+
+  function handleNoAttempt(event) {
+    event.preventDefault();
+
+    if (escaping) {
+      return;
+    }
+
+    setEscaping(true);
+    setMessage("hej, ta ko\u015b\u0107 w\u0142a\u015bnie zmieni\u0142a w\u0142a\u015bciciela");
+    window.setTimeout(() => {
+      setEscaping(false);
+      setMessage("jamnik zostawi\u0142 tylko jedn\u0105 rozs\u0105dn\u0105 odpowied\u017a");
+    }, 1350);
+  }
+
+  async function submitDate(event) {
+    event.preventDefault();
+
+    if (sendingRef.current || status === "sending") {
+      return;
+    }
+
+    sendingRef.current = true;
+    setStatus("sending");
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/send-date", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          year,
+          month,
+          day,
+          hour,
+          formattedDate,
+          submittedAt: new Date().toISOString()
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      setHappy(true);
+      setStatus("success");
+      setStep("success");
+    } catch {
+      sendingRef.current = false;
+      setStatus("error");
+      setMessage("co\u015b posz\u0142o nie tak, ale jamnik nadal wierzy w t\u0119 randk\u0119");
+    }
+  }
+
+  return (
+    <main className="app-shell">
+      <FloatingHearts active={happy || step === "success"} />
+      <section className={`date-card ${step === "success" ? "success-card" : ""}`}>
+        <div className="sparkle-row" aria-hidden="true">
+          <span>{"\u2665"}</span>
+          <span>{"\u2726"}</span>
+          <span>{"\u2665"}</span>
+        </div>
+
+        {step === "question" ? (
+          <>
+            <Dachshund mood={happy ? "happy" : "sweet"} escaping={escaping} />
+            <p className="kicker">ma\u0142a jamnikowa misja</p>
+            <h1>czy um\u00f3wisz si\u0119 ze mn\u0105 na randk\u0119?</h1>
+            <div className="button-row">
+              <button
+                className="bone-button yes-button"
+                type="button"
+                onClick={handleYes}
+                onPointerUp={handleYes}
+                onTouchEnd={handleYes}
+              >
+                TAK
+              </button>
+              <button
+                className={`bone-button no-button ${escaping ? "is-running" : ""}`}
+                type="button"
+                onPointerDown={handleNoAttempt}
+                onTouchStart={handleNoAttempt}
+                onClick={handleNoAttempt}
+              >
+                NIE
+              </button>
+            </div>
+            <p className="soft-message" aria-live="polite">{message}</p>
+          </>
+        ) : null}
+
+        {step === "calendar" ? (
+          <>
+            <Dachshund mood="happy" />
+            <p className="kicker">jamnik merda z ekscytacji</p>
+            <h1>wybierz termin randki</h1>
+            <form className="date-form" onSubmit={submitDate}>
+              <label>
+                <span>rok</span>
+                <select value={year} onChange={(event) => setYear(Number(event.target.value))}>
+                  {years.map((item) => (
+                    <option key={item} value={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                <span>miesi\u0105c</span>
+                <select value={month} onChange={(event) => setMonth(Number(event.target.value))}>
+                  {monthNames.map((name, index) => (
+                    <option key={name} value={index + 1}>{name}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                <span>dzie\u0144</span>
+                <select value={day} onChange={(event) => setDay(Number(event.target.value))}>
+                  {days.map((item) => (
+                    <option key={item} value={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                <span>godzina</span>
+                <select value={hour} onChange={(event) => setHour(event.target.value)}>
+                  {hours.map((item) => (
+                    <option key={item} value={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+
+              <div className="date-preview">
+                <span>wybrano</span>
+                <strong>{formattedDate}</strong>
+              </div>
+
+              <button
+                className="bone-button confirm-button"
+                type="submit"
+                disabled={status === "sending"}
+                onTouchEnd={submitDate}
+              >
+                {status === "sending" ? "jamnik niesie wiadomo\u015b\u0107..." : "potwierdzam randk\u0119"}
+              </button>
+            </form>
+            <p className="soft-message error" aria-live="polite">{message}</p>
+          </>
+        ) : null}
+
+        {step === "success" ? (
+          <>
+            <Dachshund mood="happy" />
+            <p className="kicker">hau, mamy to</p>
+            <h1>randka zapisana! jamnik ju\u017c szykuje kokardk\u0119</h1>
+            <p className="success-copy">Termin polecia\u0142 mailem: {formattedDate}.</p>
+          </>
+        ) : null}
+      </section>
+    </main>
+  );
+}
