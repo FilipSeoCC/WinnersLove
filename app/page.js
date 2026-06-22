@@ -122,11 +122,7 @@ export default function Home() {
     return `${paddedDay}.${paddedMonth}.${year} o ${hour}`;
   }, [day, month, year, hour]);
 
-  function handleYes(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
+  function handleYes() {
     if (yesHandledRef.current || happy || step !== "question") {
       return;
     }
@@ -134,7 +130,7 @@ export default function Home() {
     yesHandledRef.current = true;
     setHappy(true);
     setMessage("");
-    window.setTimeout(() => setStep("calendar"), 950);
+    window.setTimeout(() => setStep("calendar"), 320);
   }
 
   function handleNoAttempt(event) {
@@ -203,21 +199,18 @@ export default function Home() {
           <span>{"\u2665"}</span>
         </div>
 
-        {step === "question" ? (
-          <>
+        <div className={`panel question-panel ${step !== "question" ? "is-hidden" : ""}`}>
             <Dachshund mood={happy ? "happy" : "sweet"} escaping={escaping} />
             <p className="kicker">{"ma\u0142a jamnikowa misja"}</p>
             <h1>{"czy um\u00f3wisz si\u0119 ze mn\u0105 na randk\u0119?"}</h1>
             <div className="button-row">
-              <button
+              <a
                 className="bone-button yes-button"
-                type="button"
+                href="#calendar"
                 onClick={handleYes}
-                onPointerUp={handleYes}
-                onTouchEnd={handleYes}
               >
                 TAK
-              </button>
+              </a>
               <button
                 className={`bone-button no-button ${escaping ? "is-running" : ""}`}
                 type="button"
@@ -229,11 +222,9 @@ export default function Home() {
               </button>
             </div>
             <p className="soft-message" aria-live="polite">{message}</p>
-          </>
-        ) : null}
+        </div>
 
-        {step === "calendar" ? (
-          <>
+        <div id="calendar" className={`panel calendar-panel ${step !== "calendar" ? "is-hidden" : ""}`}>
             <Dachshund mood="happy" />
             <p className="kicker">jamnik merda z ekscytacji</p>
             <h1>wybierz termin randki</h1>
@@ -289,17 +280,14 @@ export default function Home() {
               </button>
             </form>
             <p className="soft-message error" aria-live="polite">{message}</p>
-          </>
-        ) : null}
+        </div>
 
-        {step === "success" ? (
-          <>
+        <div className={`panel success-panel ${step !== "success" ? "is-hidden" : ""}`}>
             <Dachshund mood="happy" />
             <p className="kicker">hau, mamy to</p>
             <h1>{"randka zapisana! jamnik ju\u017c szykuje kokardk\u0119"}</h1>
             <p className="success-copy">{"Termin polecia\u0142 mailem"}: {formattedDate}.</p>
-          </>
-        ) : null}
+        </div>
       </section>
     </main>
   );
