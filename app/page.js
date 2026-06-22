@@ -206,8 +206,8 @@ export default function Home() {
         {step === "question" ? (
           <>
             <Dachshund mood={happy ? "happy" : "sweet"} escaping={escaping} />
-            <p className="kicker">ma\u0142a jamnikowa misja</p>
-            <h1>czy um\u00f3wisz si\u0119 ze mn\u0105 na randk\u0119?</h1>
+            <p className="kicker">{"ma\u0142a jamnikowa misja"}</p>
+            <h1>{"czy um\u00f3wisz si\u0119 ze mn\u0105 na randk\u0119?"}</h1>
             <div className="button-row">
               <button
                 className="bone-button yes-button"
@@ -248,7 +248,7 @@ export default function Home() {
               </label>
 
               <label>
-                <span>miesi\u0105c</span>
+                <span>{"miesi\u0105c"}</span>
                 <select value={month} onChange={(event) => setMonth(Number(event.target.value))}>
                   {monthNames.map((name, index) => (
                     <option key={name} value={index + 1}>{name}</option>
@@ -257,7 +257,7 @@ export default function Home() {
               </label>
 
               <label>
-                <span>dzie\u0144</span>
+                <span>{"dzie\u0144"}</span>
                 <select value={day} onChange={(event) => setDay(Number(event.target.value))}>
                   {days.map((item) => (
                     <option key={item} value={item}>{item}</option>
@@ -296,8 +296,8 @@ export default function Home() {
           <>
             <Dachshund mood="happy" />
             <p className="kicker">hau, mamy to</p>
-            <h1>randka zapisana! jamnik ju\u017c szykuje kokardk\u0119</h1>
-            <p className="success-copy">Termin polecia\u0142 mailem: {formattedDate}.</p>
+            <h1>{"randka zapisana! jamnik ju\u017c szykuje kokardk\u0119"}</h1>
+            <p className="success-copy">{"Termin polecia\u0142 mailem"}: {formattedDate}.</p>
           </>
         ) : null}
       </section>
