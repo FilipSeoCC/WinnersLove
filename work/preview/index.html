@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jamnikowa randka - podglad</title>
+    <style>
+      :root {
+        --cream: #fff4df;
+        --pink: #ffc6d9;
+        --pink-strong: #ff7aa8;
+        --berry: #7a2f51;
+        --caramel: #c9793f;
+        --chocolate: #7b3f22;
+        --mint: #bcead5;
+        --white: #fffdf8;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--berry);
+        background:
+          radial-gradient(circle at 12% 16%, rgba(255,255,255,.8) 0 7px, transparent 8px),
+          radial-gradient(circle at 86% 18%, rgba(255,122,168,.22) 0 12px, transparent 13px),
+          linear-gradient(145deg, #ffe1eb 0%, var(--cream) 48%, #ffe6d4 100%);
+        font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+      }
+
+      .app-shell {
+        position: relative;
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        padding: 22px;
+      }
+
+      .date-card {
+        position: relative;
+        z-index: 2;
+        width: min(100%, 430px);
+        min-height: 590px;
+        padding: 26px 22px 28px;
+        overflow: hidden;
+        text-align: center;
+        border: 3px solid rgba(255,255,255,.78);
+        border-radius: 30px;
+        background: linear-gradient(180deg, rgba(255,253,248,.96), rgba(255,244,223,.92));
+        box-shadow: 0 24px 70px rgba(122,47,81,.2);
+      }
+
+      .date-card::before {
+        position: absolute;
+        inset: 12px;
+        z-index: -1;
+        content: "";
+        border: 2px dashed rgba(255,122,168,.28);
+        border-radius: 22px;
+      }
+
+      .sparkle-row {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        margin-bottom: 6px;
+        color: var(--pink-strong);
+        font-size: 22px;
+        animation: bob 2.3s ease-in-out infinite;
+      }
+
+      .kicker {
+        margin: 14px 0 8px;
+        color: #b45c7b;
+        font-size: .85rem;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 340px;
+        margin: 0 auto 24px;
+        color: var(--berry);
+        font-size: clamp(2rem, 10vw, 3.05rem);
+        line-height: 1.02;
+      }
+
+      .button-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      button, select { font: inherit; }
+
+      .bone-button {
+        position: relative;
+        min-height: 62px;
+        padding: 0 22px;
+        color: var(--berry);
+        cursor: pointer;
+        border: 0;
+        border-radius: 999px;
+        background: var(--white);
+        box-shadow: 0 10px 0 #f5c4d2, 0 15px 24px rgba(122,47,81,.14);
+        font-size: 1.02rem;
+        font-weight: 950;
+        letter-spacing: .04em;
+        transition: transform .16s ease, opacity .22s ease;
+      }
+
+      .bone-button::before,
+      .bone-button::after {
+        position: absolute;
+        top: 50%;
+        width: 31px;
+        height: 31px;
+        content: "";
+        border-radius: 50%;
+        background: var(--white);
+        transform: translateY(-50%);
+      }
+
+      .bone-button::before { left: -12px; box-shadow: 0 28px 0 var(--white); }
+      .bone-button::after { right: -12px; box-shadow: 0 28px 0 var(--white); }
+
+      .yes-button, .confirm-button {
+        color: #fff;
+        background: linear-gradient(180deg, #ff8bb4, var(--pink-strong));
+        box-shadow: 0 10px 0 #d95783, 0 15px 24px rgba(122,47,81,.17);
+      }
+
+      .yes-button::before, .yes-button::after, .confirm-button::before, .confirm-button::after {
+        background: #ff8bb4;
+      }
+
+      .yes-button::before, .confirm-button::before { box-shadow: 0 28px 0 #ff8bb4; }
+      .yes-button::after, .confirm-button::after { box-shadow: 0 28px 0 #ff8bb4; }
+
+      .no-button.is-running {
+        pointer-events: none;
+        opacity: 0;
+        transform: translate(90px, -46px) rotate(20deg) scale(.65);
+      }
+
+      .soft-message {
+        min-height: 24px;
+        margin: 24px auto 0;
+        color: #a75b74;
+        font-size: .98rem;
+        font-weight: 700;
+      }
+
+      .dog-wrap { position: relative; height: 178px; margin: 0 auto; }
+
+      .dog {
+        position: absolute;
+        right: 50%;
+        bottom: 15px;
+        width: 238px;
+        height: 132px;
+        transform: translateX(50%);
+        animation: dog-breathe 2.2s ease-in-out infinite;
+      }
+
+      .body {
+        position: absolute;
+        right: 42px;
+        bottom: 26px;
+        width: 162px;
+        height: 66px;
+        border: 4px solid var(--chocolate);
+        border-radius: 42px 48px 38px 46px;
+        background: var(--caramel);
+      }
+
+      .head {
+        position: absolute;
+        right: 10px;
+        bottom: 57px;
+        width: 78px;
+        height: 70px;
+        border: 4px solid var(--chocolate);
+        border-radius: 48% 42% 48% 48%;
+        background: var(--caramel);
+      }
+
+      .ear {
+        position: absolute;
+        top: 22px;
+        left: -16px;
+        width: 31px;
+        height: 58px;
+        border: 4px solid var(--chocolate);
+        border-radius: 18px 18px 26px 26px;
+        background: #9d522d;
+      }
+
+      .eye {
+        position: absolute;
+        top: 23px;
+        right: 24px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #3c251c;
+        box-shadow: 3px -2px 0 rgba(255,255,255,.85);
+      }
+
+      .snout {
+        position: absolute;
+        right: -27px;
+        bottom: 15px;
+        width: 46px;
+        height: 31px;
+        border: 4px solid var(--chocolate);
+        border-left: 0;
+        border-radius: 0 22px 22px 0;
+        background: #d99053;
+      }
+
+      .nose {
+        position: absolute;
+        right: -33px;
+        bottom: 29px;
+        width: 14px;
+        height: 11px;
+        border-radius: 9px;
+        background: #3c251c;
+      }
+
+      .tail {
+        position: absolute;
+        left: 17px;
+        bottom: 72px;
+        width: 48px;
+        height: 14px;
+        border: 4px solid var(--chocolate);
+        border-right: 0;
+        border-bottom: 0;
+        border-radius: 999px 0 0 0;
+        transform-origin: right bottom;
+        transform: rotate(-22deg);
+      }
+
+      .leg {
+        position: absolute;
+        bottom: 7px;
+        width: 16px;
+        height: 34px;
+        border: 4px solid var(--chocolate);
+        border-top: 0;
+        border-radius: 0 0 12px 12px;
+        background: var(--caramel);
+      }
+
+      .leg-one { left: 72px; }
+      .leg-two { left: 108px; }
+      .leg-three { right: 78px; }
+      .leg-four { right: 42px; }
+
+      .bow {
+        position: absolute;
+        right: 62px;
+        bottom: 96px;
+        display: grid;
+        width: 32px;
+        height: 24px;
+        place-items: center;
+        color: #fff;
+        border-radius: 50%;
+        background: var(--pink-strong);
+        box-shadow: -16px 1px 0 #ff9bbe, 16px 1px 0 #ff9bbe;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .dog-happy .tail { animation: wag .29s ease-in-out infinite alternate; }
+      .dog-happy .dog { animation: happy-hop .56s ease-in-out infinite alternate; }
+      .dog-escape .dog { animation: run-away 1.3s cubic-bezier(.42,0,.2,1) forwards; }
+
+      .stolen-bone {
+        position: absolute;
+        right: -24px;
+        bottom: 50px;
+        width: 68px;
+        height: 30px;
+        display: none;
+        place-items: center;
+        color: var(--berry);
+        border-radius: 999px;
+        background: #fffdf8;
+        box-shadow: -12px 0 0 #fffdf8, 12px 0 0 #fffdf8;
+        font-size: .78rem;
+        font-weight: 950;
+      }
+
+      .dog-escape .stolen-bone { display: grid; }
+
+      .hearts {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .hearts span {
+        position: absolute;
+        left: calc(7% + var(--i) * 7%);
+        bottom: -36px;
+        color: rgba(255,104,151,.66);
+        font-size: calc(16px + (var(--i) % 4) * 7px);
+        opacity: 0;
+      }
+
+      .hearts-active span {
+        animation: float-heart 3.7s ease-in infinite;
+        animation-delay: calc(var(--i) * -.22s);
+      }
+
+      .date-form { display: grid; gap: 14px; margin-top: 18px; }
+
+      .date-form label {
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+      }
+
+      .date-form label span {
+        font-size: .9rem;
+        font-weight: 900;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+      }
+
+      select {
+        width: 100%;
+        min-height: 50px;
+        color: var(--berry);
+        border: 2px solid rgba(255,122,168,.44);
+        border-radius: 18px;
+        background: #fffdf8;
+        padding: 0 16px;
+        font-weight: 800;
+      }
+
+      .date-preview {
+        margin: 4px 0 8px;
+        padding: 14px 16px;
+        border: 2px solid rgba(188,234,213,.8);
+        border-radius: 20px;
+        background: rgba(188,234,213,.2);
+      }
+
+      .hidden { display: none; }
+
+      @keyframes bob {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+      }
+
+      @keyframes dog-breathe {
+        0%, 100% { transform: translateX(50%) translateY(0); }
+        50% { transform: translateX(50%) translateY(-3px); }
+      }
+
+      @keyframes happy-hop {
+        0% { transform: translateX(50%) translateY(0) rotate(-1deg); }
+        100% { transform: translateX(50%) translateY(-7px) rotate(1deg); }
+      }
+
+      @keyframes wag {
+        from { transform: rotate(-36deg); }
+        to { transform: rotate(18deg); }
+      }
+
+      @keyframes run-away {
+        0% { transform: translateX(50%) translateY(0) rotate(0); }
+        45% { transform: translateX(10%) translateY(-8px) rotate(-5deg); }
+        100% { transform: translateX(220%) translateY(-18px) rotate(8deg); }
+      }
+
+      @keyframes float-heart {
+        0% { opacity: 0; transform: translateY(0) translateX(0) rotate(0); }
+        12% { opacity: 1; }
+        100% { opacity: 0; transform: translateY(-112vh) translateX(22px) rotate(24deg); }
+      }
+
+      @media (max-width: 390px) {
+        .app-shell { padding: 14px; }
+        .date-card { min-height: 560px; padding: 20px 18px 24px; border-radius: 24px; }
+        .dog { transform: translateX(50%) scale(.9); }
+        .button-row { grid-template-columns: 1fr; gap: 18px; }
+        .bone-button { width: calc(100% - 24px); justify-self: center; }
+        .date-form label { grid-template-columns: 1fr; gap: 6px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app-shell">
+      <div id="hearts" class="hearts" aria-hidden="true"></div>
+      <section class="date-card">
+        <div class="sparkle-row" aria-hidden="true"><span>♥</span><span>✦</span><span>♥</span></div>
+        <div id="dogWrap" class="dog-wrap">
+          <div class="dog">
+            <div class="tail"></div>
+            <div class="body"></div>
+            <div class="head">
+              <div class="ear"></div>
+              <div class="eye"></div>
+              <div class="snout"></div>
+              <div class="nose"></div>
+            </div>
+            <div class="leg leg-one"></div>
+            <div class="leg leg-two"></div>
+            <div class="leg leg-three"></div>
+            <div class="leg leg-four"></div>
+            <div class="bow">♥</div>
+            <div class="stolen-bone">NIE</div>
+          </div>
+        </div>
+
+        <div id="question">
+          <p class="kicker">mała jamnikowa misja</p>
+          <h1>czy umówisz się ze mną na randkę?</h1>
+          <div class="button-row">
+            <button id="yes" class="bone-button yes-button" type="button">TAK</button>
+            <button id="no" class="bone-button no-button" type="button">NIE</button>
+          </div>
+          <p id="message" class="soft-message" aria-live="polite"></p>
+        </div>
+
+        <form id="calendar" class="date-form hidden">
+          <p class="kicker">jamnik merda z ekscytacji</p>
+          <h1>wybierz termin randki</h1>
+          <label><span>rok</span><select id="year"></select></label>
+          <label><span>miesiąc</span><select id="month"></select></label>
+          <label><span>dzień</span><select id="day"></select></label>
+          <label><span>godzina</span><select id="hour"></select></label>
+          <div class="date-preview"><span>wybrano</span><strong id="preview"></strong></div>
+          <button class="bone-button confirm-button" type="submit">potwierdzam randkę</button>
+          <p class="soft-message">w podglądzie mail nie jest wysyłany; właściwy endpoint jest w projekcie Next.js</p>
+        </form>
+
+        <div id="success" class="hidden">
+          <p class="kicker">hau, mamy to</p>
+          <h1>randka zapisana! jamnik już szykuje kokardkę</h1>
+          <p id="successDate" class="soft-message"></p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const hearts = document.querySelector("#hearts");
+      const dogWrap = document.querySelector("#dogWrap");
+      const question = document.querySelector("#question");
+      const calendar = document.querySelector("#calendar");
+      const success = document.querySelector("#success");
+      const message = document.querySelector("#message");
+      const no = document.querySelector("#no");
+      const preview = document.querySelector("#preview");
+      const successDate = document.querySelector("#successDate");
+      const monthNames = ["styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"];
+
+      hearts.innerHTML = Array.from({ length: 14 }, (_, i) => `<span style="--i:${i}">♥</span>`).join("");
+
+      const now = new Date();
+      const year = document.querySelector("#year");
+      const month = document.querySelector("#month");
+      const day = document.querySelector("#day");
+      const hour = document.querySelector("#hour");
+
+      for (let i = 0; i < 5; i++) year.add(new Option(now.getFullYear() + i, now.getFullYear() + i));
+      monthNames.forEach((name, index) => month.add(new Option(name, index + 1)));
+      ["10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00"].forEach(item => hour.add(new Option(item, item)));
+
+      year.value = now.getFullYear();
+      month.value = now.getMonth() + 1;
+      hour.value = "18:00";
+
+      function fillDays() {
+        const current = Number(day.value || now.getDate());
+        const max = new Date(Number(year.value), Number(month.value), 0).getDate();
+        day.innerHTML = "";
+        for (let i = 1; i <= max; i++) day.add(new Option(i, i));
+        day.value = Math.min(current, max);
+        updatePreview();
+      }
+
+      function formattedDate() {
+        return `${String(day.value).padStart(2, "0")}.${String(month.value).padStart(2, "0")}.${year.value} o ${hour.value}`;
+      }
+
+      function updatePreview() {
+        preview.textContent = formattedDate();
+      }
+
+      fillDays();
+      day.value = now.getDate();
+      updatePreview();
+
+      document.querySelector("#yes").addEventListener("click", () => {
+        dogWrap.classList.add("dog-happy");
+        hearts.classList.add("hearts-active");
+        setTimeout(() => {
+          question.classList.add("hidden");
+          calendar.classList.remove("hidden");
+        }, 850);
+      });
+
+      function runAway(event) {
+        event.preventDefault();
+        no.classList.add("is-running");
+        dogWrap.classList.add("dog-escape");
+        message.textContent = "hej, ta kość właśnie zmieniła właściciela";
+        setTimeout(() => {
+          no.classList.remove("is-running");
+          dogWrap.classList.remove("dog-escape");
+          message.textContent = "jamnik zostawił tylko jedną rozsądną odpowiedź";
+        }, 1350);
+      }
+
+      no.addEventListener("click", runAway);
+      no.addEventListener("mouseenter", runAway);
+      no.addEventListener("touchstart", runAway);
+      year.addEventListener("change", fillDays);
+      month.addEventListener("change", fillDays);
+      day.addEventListener("change", updatePreview);
+      hour.addEventListener("change", updatePreview);
+
+      calendar.addEventListener("submit", (event) => {
+        event.preventDefault();
+        calendar.classList.add("hidden");
+        success.classList.remove("hidden");
+        dogWrap.classList.add("dog-happy");
+        hearts.classList.add("hearts-active");
+        successDate.textContent = `Termin: ${formattedDate()}`;
+      });
+    </script>
+  </body>
+</html>
