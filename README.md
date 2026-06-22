@@ -58,3 +58,5 @@ Uwaga: w trybie testowym Resend może wymagać użycia `onboarding@resend.dev` j
 - `app/api/send-date/route.js` - endpoint `/api/send-date` wysyłający mail przez Resend.
 - `.env.example` - przykład konfiguracji środowiska.
 - `package.json` - zależności i skrypty projektu.
+
+deploy test
