@@ -250,25 +250,24 @@ h1 {
 .bone-button::after {
   position: absolute;
   top: 50%;
-  width: 31px;
-  height: 31px;
+  width: 36px;
+  height: 36px;
   content: "";
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 0, var(--white) 0 15px, transparent 16px),
-    var(--white);
+  background: transparent;
+  box-shadow:
+    0 -19px 0 var(--white),
+    0 19px 0 var(--white);
   pointer-events: none;
   transform: translateY(-50%);
 }
 
 .bone-button::before {
-  left: -12px;
-  box-shadow: 0 28px 0 var(--white);
+  left: -18px;
 }
 
 .bone-button::after {
-  right: -12px;
-  box-shadow: 0 28px 0 var(--white);
+  right: -18px;
 }
 
 .bone-button:hover,
@@ -296,19 +295,9 @@ h1 {
 .yes-button::after,
 .confirm-button::before,
 .confirm-button::after {
-  background:
-    radial-gradient(circle at 50% 0, #ff8bb4 0 15px, transparent 16px),
-    #ff8bb4;
-}
-
-.yes-button::before,
-.confirm-button::before {
-  box-shadow: 0 28px 0 #ff8bb4;
-}
-
-.yes-button::after,
-.confirm-button::after {
-  box-shadow: 0 28px 0 #ff8bb4;
+  box-shadow:
+    0 -19px 0 #ff8bb4,
+    0 19px 0 #ff8bb4;
 }
 
 .no-button {
