@@ -12,6 +12,9 @@ export default function Dachshund({ mood = "sweet", escaping = false }) {
           height={242}
           priority
         />
+        <div className="dog-tail">
+          <Image src="/dachshund-tail.png" alt="" width={200} height={242} priority />
+        </div>
         {escaping ? <div className="stolen-bone">NIE</div> : null}
       </div>
     </div>

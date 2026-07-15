@@ -31,7 +31,8 @@ export async function POST(request) {
     }
 
     return Response.json({ ok: true });
-  } catch {
+  } catch (error) {
+    console.error("Blad resetu hasla (request)", error);
     return Response.json({ ok: false, error: "server_error" }, { status: 500 });
   }
 }

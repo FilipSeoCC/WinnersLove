@@ -22,7 +22,7 @@ export default function PolitykaPrywatnosciPage() {
         <p>Jeśli zakładasz konto (jesteś nadawcą zaproszenia), przetwarzamy:</p>
         <ul>
           <li>adres e-mail i zahaszowane hasło (nigdy nie przechowujemy hasła w jawnej postaci),</li>
-          <li>opcjonalnie numer telefonu — tylko jeśli go podasz i zaznaczysz osobną zgodę,</li>
+          <li>numer telefonu — wymagany do założenia konta,</li>
           <li>treść utworzonych przez Ciebie zaproszeń (opcjonalna etykieta odbiorczyni, status, wybrany termin).</li>
         </ul>
         <p>
@@ -34,9 +34,9 @@ export default function PolitykaPrywatnosciPage() {
 
         <h2>3. Cel i podstawa prawna przetwarzania</h2>
         <ul>
-          <li>Prowadzenie konta i działanie Usługi — art. 6 ust. 1 lit. b) RODO (wykonanie umowy).</li>
+          <li>Prowadzenie konta i działanie Usługi, w tym numer telefonu jako element identyfikacji konta — art. 6 ust. 1 lit. b) RODO (wykonanie umowy).</li>
           <li>Akceptacja Regulaminu i Polityki Prywatności — art. 6 ust. 1 lit. a) RODO (zgoda).</li>
-          <li>Opcjonalne powiadomienia SMS o odpowiedzi na zaproszenie — art. 6 ust. 1 lit. a) RODO (odrębna, dobrowolna zgoda; funkcja może zostać uruchomiona w przyszłości).</li>
+          <li>Opcjonalne powiadomienia SMS o odpowiedzi na zaproszenie — art. 6 ust. 1 lit. a) RODO (odrębna, dobrowolna zgoda, niezależna od samego podania numeru; funkcja wysyłki SMS może zostać uruchomiona w przyszłości).</li>
         </ul>
 
         <h2>4. Odbiorcy danych</h2>
@@ -68,8 +68,9 @@ export default function PolitykaPrywatnosciPage() {
 
         <h2>7. Dobrowolność podania danych</h2>
         <p>
-          Podanie e-maila i hasła jest dobrowolne, ale niezbędne do założenia konta i korzystania
-          z Usługi. Podanie numeru telefonu jest w pełni opcjonalne.
+          Podanie e-maila, hasła i numeru telefonu jest dobrowolne, ale niezbędne do założenia
+          konta i korzystania z Usługi. Zgoda na powiadomienia SMS jest w pełni opcjonalna i
+          niezależna od samego podania numeru telefonu.
         </p>
 
         <h2>8. Bezpieczeństwo</h2>

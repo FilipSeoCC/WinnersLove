@@ -7,10 +7,16 @@ import Link from "next/link";
 const ERROR_MESSAGES = {
   invalid_email: "Podaj poprawny adres e-mail.",
   invalid_password: "Hasło musi mieć co najmniej 8 znaków.",
+  invalid_phone: "Podaj poprawny numer telefonu (same cyfry, ewentualnie z + na początku, 9-15 cyfr).",
   terms_required: "Musisz zaakceptować Regulamin i Politykę Prywatności.",
   email_taken: "Ten e-mail jest już zarejestrowany.",
   server_error: "Coś poszło nie tak. Spróbuj ponownie."
 };
+
+function isValidPhone(phone) {
+  const normalized = phone.replace(/[\s-]/g, "");
+  return /^\+?\d{9,15}$/.test(normalized);
+}
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -31,6 +37,11 @@ export default function RegisterPage() {
       return;
     }
 
+    if (!isValidPhone(phone)) {
+      setError(ERROR_MESSAGES.invalid_phone);
+      return;
+    }
+
     setStatus("submitting");
     setError("");
 
@@ -41,9 +52,9 @@ export default function RegisterPage() {
         body: JSON.stringify({
           email,
           password,
-          phone: phone || undefined,
+          phone,
           termsAccepted,
-          phoneConsent: phone ? phoneConsent : false
+          phoneConsent
         })
       });
 
@@ -105,25 +116,26 @@ export default function RegisterPage() {
           </label>
 
           <label className="field">
-            <span>numer telefonu (opcjonalnie)</span>
+            <span>numer telefonu</span>
             <input
               type="tel"
+              required
+              pattern="^\+?[\d\s-]{9,15}$"
               value={phone}
               onChange={(event) => setPhone(event.target.value)}
               autoComplete="tel"
+              placeholder="np. 600123456"
             />
           </label>
 
-          {phone ? (
-            <label className="checkbox-field">
-              <input
-                type="checkbox"
-                checked={phoneConsent}
-                onChange={(event) => setPhoneConsent(event.target.checked)}
-              />
-              <span>Chcę dostawać SMS, gdy dziewczyna odpowie na zaproszenie.</span>
-            </label>
-          ) : null}
+          <label className="checkbox-field">
+            <input
+              type="checkbox"
+              checked={phoneConsent}
+              onChange={(event) => setPhoneConsent(event.target.checked)}
+            />
+            <span>Chcę dostawać SMS, gdy dziewczyna odpowie na zaproszenie.</span>
+          </label>
 
           <label className="checkbox-field">
             <input

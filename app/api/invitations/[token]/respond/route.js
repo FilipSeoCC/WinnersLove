@@ -125,7 +125,8 @@ export async function POST(request, { params }) {
     }
 
     return Response.json({ ok: true, status: answer });
-  } catch {
+  } catch (error) {
+    console.error("Blad zapisu odpowiedzi na zaproszenie", error);
     return Response.json({ ok: false, error: "server_error" }, { status: 500 });
   }
 }

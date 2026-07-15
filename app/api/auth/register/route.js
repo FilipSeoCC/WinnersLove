@@ -3,6 +3,7 @@ import { getRedisClient } from "@/lib/redis";
 import {
   normalizeEmail,
   isValidPassword,
+  isValidPhone,
   hashPassword,
   createSession,
   SESSION_COOKIE_NAME,
@@ -27,6 +28,10 @@ export async function POST(request) {
       return Response.json({ ok: false, error: "invalid_password" }, { status: 400 });
     }
 
+    if (!isValidPhone(phone)) {
+      return Response.json({ ok: false, error: "invalid_phone" }, { status: 400 });
+    }
+
     if (!termsAccepted) {
       return Response.json({ ok: false, error: "terms_required" }, { status: 400 });
     }
@@ -47,17 +52,15 @@ export async function POST(request) {
       id: userId,
       email,
       passwordHash,
+      phone,
       createdAt: now,
       termsConsentVersion: TERMS_VERSION,
       termsConsentAt: now
     };
 
-    if (phone) {
-      userRecord.phone = phone;
-      if (phoneConsent) {
-        userRecord.phoneConsentVersion = PRIVACY_VERSION;
-        userRecord.phoneConsentAt = now;
-      }
+    if (phoneConsent) {
+      userRecord.phoneConsentVersion = PRIVACY_VERSION;
+      userRecord.phoneConsentAt = now;
     }
 
     await redis.set(`user:${userId}`, userRecord);
@@ -68,7 +71,8 @@ export async function POST(request) {
     cookieStore.set(SESSION_COOKIE_NAME, sessionId, sessionCookieOptions());
 
     return Response.json({ ok: true });
-  } catch {
+  } catch (error) {
+    console.error("Blad rejestracji", error);
     return Response.json({ ok: false, error: "server_error" }, { status: 500 });
   }
 }

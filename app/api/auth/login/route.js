@@ -42,7 +42,8 @@ export async function POST(request) {
     cookieStore.set(SESSION_COOKIE_NAME, sessionId, sessionCookieOptions());
 
     return Response.json({ ok: true });
-  } catch {
+  } catch (error) {
+    console.error("Blad logowania", error);
     return Response.json({ ok: false, error: "server_error" }, { status: 500 });
   }
 }

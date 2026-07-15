@@ -35,7 +35,8 @@ export async function POST(request) {
     await destroyAllUserSessions(resetRecord.userId);
 
     return Response.json({ ok: true });
-  } catch {
+  } catch (error) {
+    console.error("Blad resetu hasla (confirm)", error);
     return Response.json({ ok: false, error: "server_error" }, { status: 500 });
   }
 }
