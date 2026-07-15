@@ -312,13 +312,11 @@ h1 {
 }
 
 .no-button {
-  transition: transform 250ms cubic-bezier(.2, 1.2, .4, 1), opacity 220ms ease;
+  transition: transform 220ms cubic-bezier(.2, 1.2, .4, 1);
 }
 
 .no-button.is-running {
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(90px, -46px) rotate(20deg) scale(0.65);
+  transform: translate(var(--escape-x, 90px), var(--escape-y, -46px)) rotate(14deg) scale(0.85);
 }
 
 .soft-message {
@@ -703,11 +701,6 @@ input[type="password"]:focus,
 input[type="tel"]:focus {
   border-color: var(--pink-strong);
   box-shadow: 0 0 0 4px rgba(255, 122, 168, 0.16);
-}
-
-.name-field {
-  margin: 18px auto 4px;
-  max-width: 280px;
 }
 
 .checkbox-field {

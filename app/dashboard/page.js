@@ -35,7 +35,7 @@ export default async function DashboardPage() {
             {invitations.map((invitation) => (
               <li key={invitation.token} className={`invitation-item status-${invitation.status}`}>
                 <div className="invitation-item-main">
-                  <strong>{invitation.respondentName || invitation.recipientLabel || "bez etykiety"}</strong>
+                  <strong>{invitation.recipientLabel || "bez etykiety"}</strong>
                   <span className="invitation-status">
                     {STATUS_LABELS[invitation.status] || invitation.status}
                   </span>

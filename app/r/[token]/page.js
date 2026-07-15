@@ -32,7 +32,6 @@ export default async function InvitationPage({ params }) {
       token={token}
       initialStatus={invitation.status}
       recipientLabel={invitation.recipientLabel}
-      initialRespondentName={invitation.respondentName || ""}
       initialFormattedDate={invitation.formattedDate || null}
       bookedSlots={bookedSlots}
     />

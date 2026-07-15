@@ -60,14 +60,9 @@ export async function POST(request, { params }) {
 
     const data = await request.json();
     const answer = data.answer === "yes" ? "yes" : data.answer === "no" ? "no" : null;
-    const respondentName = typeof data.respondentName === "string" ? data.respondentName.trim().slice(0, 80) : "";
 
     if (!answer) {
       return Response.json({ ok: false, error: "invalid_answer" }, { status: 400 });
-    }
-
-    if (!respondentName) {
-      return Response.json({ ok: false, error: "name_required" }, { status: 400 });
     }
 
     if (answer === "yes" && !isValidYesPayload(data)) {
@@ -82,7 +77,6 @@ export async function POST(request, { params }) {
     const updatedInvitation = {
       ...invitation,
       status: answer,
-      respondentName,
       respondedAt
     };
 
@@ -97,7 +91,7 @@ export async function POST(request, { params }) {
     await redis.set(`invitation:${token}`, updatedInvitation);
 
     const owner = await redis.get(`user:${invitation.userId}`);
-    const displayName = respondentName || invitation.recipientLabel;
+    const displayName = invitation.recipientLabel;
 
     if (owner && owner.email) {
       try {

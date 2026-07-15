@@ -18,7 +18,6 @@ export default function InvitationCard({
   token,
   initialStatus,
   recipientLabel,
-  initialRespondentName,
   initialFormattedDate,
   bookedSlots
 }) {
@@ -29,9 +28,7 @@ export default function InvitationCard({
         <section className="date-card success-card">
           <Dachshund mood="happy" />
           <p className="kicker">hau, mamy to</p>
-          <h1>
-            {initialRespondentName ? `${initialRespondentName}, ta` : "ta"} randka jest już potwierdzona
-          </h1>
+          <h1>ta randka jest już potwierdzona</h1>
           <p className="success-copy">Umówiony termin: {initialFormattedDate}.</p>
         </section>
       </main>
@@ -45,15 +42,20 @@ export default function InvitationCard({
           <Dachshund mood="sweet" />
           <p className="kicker">jamnik rozumie</p>
           <h1>odpowiedź została już zapisana</h1>
-          <p className="soft-message">
-            {initialRespondentName ? `Dzięki, ${initialRespondentName}, że dałaś znać.` : "Dzięki, że dałaś/dałeś znać."}
-          </p>
+          <p className="soft-message">Dzięki, że dałaś/dałeś znać.</p>
         </section>
       </main>
     );
   }
 
   return <PendingInvitation token={token} recipientLabel={recipientLabel} bookedSlots={bookedSlots || []} />;
+}
+
+function randomEscapeOffset() {
+  return {
+    x: Math.round((Math.random() - 0.5) * 200),
+    y: Math.round((Math.random() - 0.5) * 140)
+  };
 }
 
 function PendingInvitation({ token, recipientLabel, bookedSlots }) {
@@ -64,8 +66,8 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
   const [step, setStep] = useState("question");
   const [happy, setHappy] = useState(false);
   const [escaping, setEscaping] = useState(false);
+  const [escapeOffset, setEscapeOffset] = useState({ x: 90, y: -46 });
   const [declined, setDeclined] = useState(false);
-  const [recipientName, setRecipientName] = useState("");
   const [year, setYear] = useState(minDate.getFullYear());
   const [month, setMonth] = useState(minDate.getMonth() + 1);
   const [day, setDay] = useState(minDate.getDate());
@@ -152,20 +154,8 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
     return `${paddedDay}.${paddedMonth}.${year} o ${hour}`;
   }, [day, month, year, hour]);
 
-  function requireName() {
-    if (recipientName.trim()) {
-      return true;
-    }
-    setMessage("najpierw wpisz swoje imię");
-    return false;
-  }
-
   function handleYes() {
     if (yesHandledRef.current || happy || step !== "question") {
-      return;
-    }
-
-    if (!requireName()) {
       return;
     }
 
@@ -180,42 +170,26 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
   function handleNoAttempt(event) {
     event.preventDefault();
 
-    if (escaping) {
-      return;
-    }
-
-    if (!requireName()) {
-      return;
-    }
-
+    setEscapeOffset(randomEscapeOffset());
     setEscaping(true);
     setMessage("hej, ta kość właśnie zmieniła właściciela");
     window.setTimeout(() => {
       setEscaping(false);
       setMessage("jamnik zostawił tylko jedną rozsądną odpowiedź");
-    }, 1350);
+    }, 900);
   }
 
   async function handleDecline() {
     if (sendingRef.current) {
       return;
     }
-
-    if (!requireName()) {
-      return;
-    }
-
     sendingRef.current = true;
 
     try {
       await fetch(`/api/invitations/${token}/respond`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          answer: "no",
-          respondentName: recipientName.trim(),
-          submittedAt: new Date().toISOString()
-        })
+        body: JSON.stringify({ answer: "no", submittedAt: new Date().toISOString() })
       });
     } catch {
       // nawet jesli zapis w tle sie nie udal, i tak pokazujemy ekran zakonczenia -
@@ -232,10 +206,6 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
       return;
     }
 
-    if (!requireName()) {
-      return;
-    }
-
     sendingRef.current = true;
     setStatus("sending");
     setMessage("");
@@ -246,7 +216,6 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           answer: "yes",
-          respondentName: recipientName.trim(),
           year,
           month,
           day,
@@ -307,18 +276,6 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
           <p className="kicker">mała jamnikowa misja</p>
           <h1>{recipientLabel ? `${recipientLabel}, czy` : "czy"} umówisz się na randkę?</h1>
 
-          <label className="field name-field">
-            <span>jak masz na imię?</span>
-            <input
-              type="text"
-              required
-              value={recipientName}
-              onChange={(event) => setRecipientName(event.target.value)}
-              placeholder="wpisz imię"
-              maxLength={80}
-            />
-          </label>
-
           <div className="button-row">
             <a className="bone-button yes-button" href="#calendar" onClick={handleYes}>
               TAK
@@ -326,6 +283,7 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
             <button
               className={`bone-button no-button ${escaping ? "is-running" : ""}`}
               type="button"
+              style={{ "--escape-x": `${escapeOffset.x}px`, "--escape-y": `${escapeOffset.y}px` }}
               onPointerDown={handleNoAttempt}
               onTouchStart={handleNoAttempt}
               onClick={handleNoAttempt}
