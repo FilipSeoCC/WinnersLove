@@ -353,9 +353,6 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
             </button>
           </form>
           <p className="soft-message error" aria-live="polite">{message}</p>
-          <button className="link-button" type="button" onClick={handleDecline}>
-            jednak nie, dziękuję
-          </button>
         </div>
 
         <div className={`panel success-panel ${step !== "success" ? "is-hidden" : ""}`}>
