@@ -35,79 +35,8 @@ const hours = [
 const heartPositions = [7, 14, 21, 30, 37, 45, 52, 60, 67, 74, 82, 89, 95, 99];
 const heartSizes = [18, 24, 20, 31, 17, 27, 22, 34, 19, 26, 21, 30, 18, 24];
 
-const confettiPositions = [4, 12, 20, 28, 36, 44, 52, 60, 68, 76, 84, 92, 98];
-const confettiColors = [
-  "var(--pink-strong)",
-  "var(--mint)",
-  "var(--caramel)",
-  "#ffd166",
-  "var(--berry)"
-];
-
 function getDaysInMonth(year, month) {
   return new Date(year, month, 0).getDate();
-}
-
-function formatHourLabel(date) {
-  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-}
-
-function isSameCalendarDate(a, b) {
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
-}
-
-function getMinSelectableDate(reference) {
-  const nowLabel = formatHourLabel(reference);
-  const hasHourLeftToday = hours.some((item) => item > nowLabel);
-  const min = new Date(reference.getFullYear(), reference.getMonth(), reference.getDate());
-  if (!hasHourLeftToday) {
-    min.setDate(min.getDate() + 1);
-  }
-  return min;
-}
-
-function playYesChime() {
-  try {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) {
-      return;
-    }
-
-    const ctx = new AudioContextClass();
-    const startTime = ctx.currentTime;
-    const notes = [523.25, 659.25, 783.99];
-
-    notes.forEach((frequency, index) => {
-      const oscillator = ctx.createOscillator();
-      const gain = ctx.createGain();
-      const noteStart = startTime + index * 0.09;
-
-      oscillator.type = "sine";
-      oscillator.frequency.value = frequency;
-      gain.gain.setValueAtTime(0, noteStart);
-      gain.gain.linearRampToValueAtTime(0.22, noteStart + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, noteStart + 0.35);
-
-      oscillator.connect(gain);
-      gain.connect(ctx.destination);
-      oscillator.start(noteStart);
-      oscillator.stop(noteStart + 0.4);
-    });
-
-    window.setTimeout(() => ctx.close(), 700);
-  } catch {
-    // dzwiek jest tylko dekoracja; brak wsparcia audio nie moze blokowac flow
-  }
-}
-
-function vibrateYes() {
-  if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
-    navigator.vibrate([18, 40, 18]);
-  }
 }
 
 function Dachshund({ mood = "sweet", escaping = false }) {
@@ -118,22 +47,12 @@ function Dachshund({ mood = "sweet", escaping = false }) {
         <div className="body">
           <span className="spot spot-one" />
           <span className="spot spot-two" />
-          <span className="body-shine" />
         </div>
         <div className="head">
           <div className="ear" />
-          <div className="eyebrow" />
-          <div className="eye">
-            <span className="eye-shine" />
-            <span className="eye-shine eye-shine-small" />
-          </div>
-          <div className="eyelash" />
-          <div className="snout">
-            <span className="snout-shine" />
-          </div>
-          <div className="nose">
-            <span className="nose-shine" />
-          </div>
+          <div className="eye" />
+          <div className="snout" />
+          <div className="nose" />
           <div className="cheek" />
         </div>
         <div className="leg leg-one" />
@@ -166,41 +85,15 @@ function FloatingHearts({ active }) {
   );
 }
 
-function Confetti({ active }) {
-  return (
-    <div className={`confetti ${active ? "confetti-active" : ""}`} aria-hidden="true">
-      {confettiPositions.map((left, index) => (
-        <span
-          key={index}
-          style={{
-            "--left": `${left}%`,
-            "--delay": `${index * -0.35}s`,
-            "--piece-color": confettiColors[index % confettiColors.length],
-            "--rotate": `${(index * 47) % 360}deg`
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default function Home() {
   const now = new Date();
-  const minDate = useMemo(() => getMinSelectableDate(now), [now]);
-
   const [step, setStep] = useState("question");
   const [happy, setHappy] = useState(false);
   const [escaping, setEscaping] = useState(false);
-  const [year, setYear] = useState(minDate.getFullYear());
-  const [month, setMonth] = useState(minDate.getMonth() + 1);
-  const [day, setDay] = useState(minDate.getDate());
-  const [hour, setHour] = useState(() => {
-    if (!isSameCalendarDate(minDate, now)) {
-      return "18:00";
-    }
-    const nowLabel = formatHourLabel(now);
-    return hours.find((item) => item > nowLabel) || "18:00";
-  });
+  const [year, setYear] = useState(now.getFullYear());
+  const [month, setMonth] = useState(now.getMonth() + 1);
+  const [day, setDay] = useState(now.getDate());
+  const [hour, setHour] = useState("18:00");
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
   const yesHandledRef = useRef(false);
@@ -211,58 +104,17 @@ export default function Home() {
     return Array.from({ length: 5 }, (_, index) => currentYear + index);
   }, [now]);
 
-  const months = useMemo(() => {
-    const minMonth = Number(year) === minDate.getFullYear() ? minDate.getMonth() + 1 : 1;
-    return monthNames
-      .map((name, index) => ({ name, value: index + 1 }))
-      .filter((item) => item.value >= minMonth);
-  }, [year, minDate]);
-
   const days = useMemo(() => {
     const count = getDaysInMonth(Number(year), Number(month));
-    const isMinMonth = Number(year) === minDate.getFullYear() && Number(month) === minDate.getMonth() + 1;
-    const minDay = isMinMonth ? minDate.getDate() : 1;
-    const length = Math.max(count - minDay + 1, 0);
-    return Array.from({ length }, (_, index) => minDay + index);
-  }, [year, month, minDate]);
-
-  const hourOptions = useMemo(() => {
-    const isMinDay =
-      Number(year) === minDate.getFullYear() &&
-      Number(month) === minDate.getMonth() + 1 &&
-      Number(day) === minDate.getDate();
-
-    if (!isMinDay) {
-      return hours;
-    }
-
-    const nowLabel = formatHourLabel(now);
-    const filtered = hours.filter((item) => item > nowLabel);
-    return filtered.length ? filtered : hours;
-  }, [year, month, day, minDate, now]);
+    return Array.from({ length: count }, (_, index) => index + 1);
+  }, [year, month]);
 
   useEffect(() => {
-    if (months.length && !months.some((item) => item.value === Number(month))) {
-      setMonth(months[0].value);
+    const maxDay = getDaysInMonth(Number(year), Number(month));
+    if (day > maxDay) {
+      setDay(maxDay);
     }
-  }, [months, month]);
-
-  useEffect(() => {
-    if (!days.length) {
-      return;
-    }
-    if (day < days[0]) {
-      setDay(days[0]);
-    } else if (day > days[days.length - 1]) {
-      setDay(days[days.length - 1]);
-    }
-  }, [day, days]);
-
-  useEffect(() => {
-    if (hourOptions.length && !hourOptions.includes(hour)) {
-      setHour(hourOptions[0]);
-    }
-  }, [hourOptions, hour]);
+  }, [day, month, year]);
 
   const formattedDate = useMemo(() => {
     const paddedDay = String(day).padStart(2, "0");
@@ -278,8 +130,6 @@ export default function Home() {
     yesHandledRef.current = true;
     setHappy(true);
     setMessage("");
-    playYesChime();
-    vibrateYes();
     window.setTimeout(() => setStep("calendar"), 320);
   }
 
@@ -342,7 +192,6 @@ export default function Home() {
   return (
     <main className="app-shell">
       <FloatingHearts active={happy || step === "success"} />
-      <Confetti active={step === "success"} />
       <section className={`date-card ${step === "success" ? "success-card" : ""}`}>
         <div className="sparkle-row" aria-hidden="true">
           <span>{"\u2665"}</span>
@@ -392,8 +241,8 @@ export default function Home() {
               <label>
                 <span>{"miesi\u0105c"}</span>
                 <select value={month} onChange={(event) => setMonth(Number(event.target.value))}>
-                  {months.map((item) => (
-                    <option key={item.value} value={item.value}>{item.name}</option>
+                  {monthNames.map((name, index) => (
+                    <option key={name} value={index + 1}>{name}</option>
                   ))}
                 </select>
               </label>
@@ -410,7 +259,7 @@ export default function Home() {
               <label>
                 <span>godzina</span>
                 <select value={hour} onChange={(event) => setHour(event.target.value)}>
-                  {hourOptions.map((item) => (
+                  {hours.map((item) => (
                     <option key={item} value={item}>{item}</option>
                   ))}
                 </select>

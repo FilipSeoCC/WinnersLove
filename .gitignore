@@ -1,0 +1,16 @@
+.next
+node_modules
+.env
+.env.local
+.vercel
+out
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# wewnetrzne notatki robocze dla asystenta AI, nie publikujemy w repo
+CLAUDE.md
+CLAUDE_JAMNIKOWA_RANDKA.md
+MIGRATION_TO_CLAUDE_JAMNIKOWA_RANDKA.md
+PROJECT_CONTEXT_JAMNIKOWA_RANDKA.md
