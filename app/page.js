@@ -8,28 +8,28 @@ export default function LandingPage() {
       <FloatingHearts active />
       <section className="date-card landing-card">
         <div className="sparkle-row" aria-hidden="true">
-          <span>{"\u2665"}</span>
-          <span>{"\u2726"}</span>
-          <span>{"\u2665"}</span>
+          <span>{"♥"}</span>
+          <span>{"✦"}</span>
+          <span>{"♥"}</span>
         </div>
         <Dachshund mood="happy" />
         <p className="kicker">jamnikowa randka</p>
-        <h1>zamie\u0144 zaproszenie na randk\u0119 w ma\u0142\u0105, jamnikow\u0105 kartk\u0119</h1>
+        <h1>zamień zaproszenie na randkę w małą, jamnikową kartkę</h1>
         <p className="success-copy">
-          Za\u0142\u00f3\u017c konto, stw\u00f3rz unikalny link i wy\u015blij go w wiadomo\u015bci. W panelu zobaczysz,
-          czy dosta\u0142e\u015b prawdziwe TAK, czy prawdziwe NIE — bez \u017cadnych sztuczek.
+          Załóż konto, stwórz unikalny link i wyślij go w wiadomości. W panelu zobaczysz,
+          czy dostałeś prawdziwe TAK, czy prawdziwe NIE — bez żadnych sztuczek.
         </p>
         <div className="button-row">
           <Link className="bone-button yes-button" href="/register">
-            za\u0142\u00f3\u017c konto
+            załóż konto
           </Link>
           <Link className="bone-button no-button" href="/login">
-            zaloguj si\u0119
+            zaloguj się
           </Link>
         </div>
         <p className="auth-links">
           <Link href="/regulamin">Regulamin</Link> ·{" "}
-          <Link href="/polityka-prywatnosci">Polityka Prywatno\u015bci</Link>
+          <Link href="/polityka-prywatnosci">Polityka Prywatności</Link>
         </p>
       </section>
     </main>

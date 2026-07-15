@@ -30,9 +30,9 @@ function RequestForm() {
   if (done) {
     return (
       <>
-        <h1>sprawd\u017a skrzynk\u0119</h1>
+        <h1>sprawdź skrzynkę</h1>
         <p className="success-copy">
-          Je\u015bli podany adres istnieje w naszej bazie, wys\u0142ali\u015bmy na niego link do zresetowania has\u0142a.
+          Jeśli podany adres istnieje w naszej bazie, wysłaliśmy na niego link do zresetowania hasła.
         </p>
       </>
     );
@@ -40,7 +40,7 @@ function RequestForm() {
 
   return (
     <>
-      <h1>zresetuj has\u0142o</h1>
+      <h1>zresetuj hasło</h1>
       <form className="auth-form" onSubmit={handleSubmit}>
         <label className="field">
           <span>e-mail</span>
@@ -53,7 +53,7 @@ function RequestForm() {
           />
         </label>
         <button className="bone-button confirm-button" type="submit" disabled={status === "submitting"}>
-          {status === "submitting" ? "wysy\u0142anie..." : "wy\u015blij link resetuj\u0105cy"}
+          {status === "submitting" ? "wysyłanie..." : "wyślij link resetujący"}
         </button>
       </form>
     </>
@@ -61,9 +61,9 @@ function RequestForm() {
 }
 
 const CONFIRM_ERROR_MESSAGES = {
-  invalid_token: "Link do resetu has\u0142a jest nieprawid\u0142owy lub wygas\u0142.",
-  invalid_password: "Has\u0142o musi mie\u0107 co najmniej 8 znak\u00f3w.",
-  server_error: "Co\u015b posz\u0142o nie tak. Spr\u00f3buj ponownie."
+  invalid_token: "Link do resetu hasła jest nieprawidłowy lub wygasł.",
+  invalid_password: "Hasło musi mieć co najmniej 8 znaków.",
+  server_error: "Coś poszło nie tak. Spróbuj ponownie."
 };
 
 function ConfirmForm({ token }) {
@@ -77,7 +77,7 @@ function ConfirmForm({ token }) {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      setError("Has\u0142a nie s\u0105 takie same.");
+      setError("Hasła nie są takie same.");
       return;
     }
 
@@ -108,10 +108,10 @@ function ConfirmForm({ token }) {
   if (done) {
     return (
       <>
-        <h1>has\u0142o zmienione</h1>
-        <p className="success-copy">Mo\u017cesz si\u0119 teraz zalogowa\u0107 nowym has\u0142em.</p>
+        <h1>hasło zmienione</h1>
+        <p className="success-copy">Możesz się teraz zalogować nowym hasłem.</p>
         <p className="auth-links">
-          <Link href="/login">Przejd\u017a do logowania</Link>
+          <Link href="/login">Przejdź do logowania</Link>
         </p>
       </>
     );
@@ -119,10 +119,10 @@ function ConfirmForm({ token }) {
 
   return (
     <>
-      <h1>ustaw nowe has\u0142o</h1>
+      <h1>ustaw nowe hasło</h1>
       <form className="auth-form" onSubmit={handleSubmit}>
         <label className="field">
-          <span>nowe has\u0142o</span>
+          <span>nowe hasło</span>
           <input
             type="password"
             required
@@ -133,7 +133,7 @@ function ConfirmForm({ token }) {
           />
         </label>
         <label className="field">
-          <span>powt\u00f3rz has\u0142o</span>
+          <span>powtórz hasło</span>
           <input
             type="password"
             required
@@ -145,7 +145,7 @@ function ConfirmForm({ token }) {
         </label>
         {error ? <p className="soft-message error">{error}</p> : null}
         <button className="bone-button confirm-button" type="submit" disabled={status === "submitting"}>
-          {status === "submitting" ? "zapisywanie..." : "ustaw nowe has\u0142o"}
+          {status === "submitting" ? "zapisywanie..." : "ustaw nowe hasło"}
         </button>
       </form>
     </>

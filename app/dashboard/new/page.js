@@ -24,7 +24,7 @@ export default function NewInvitationPage() {
 
       if (!response.ok || !data.ok) {
         setStatus("idle");
-        setError("Co\u015b posz\u0142o nie tak. Spr\u00f3buj ponownie.");
+        setError("Coś poszło nie tak. Spróbuj ponownie.");
         return;
       }
 
@@ -32,7 +32,7 @@ export default function NewInvitationPage() {
       setStatus("done");
     } catch {
       setStatus("idle");
-      setError("Co\u015b posz\u0142o nie tak. Spr\u00f3buj ponownie.");
+      setError("Coś poszło nie tak. Spróbuj ponownie.");
     }
   }
 
@@ -50,13 +50,13 @@ export default function NewInvitationPage() {
         <section className="date-card auth-card">
           <p className="kicker">jamnikowa randka</p>
           <h1>gotowe!</h1>
-          <p className="success-copy">Wy\u015blij ten link w wiadomo\u015bci:</p>
+          <p className="success-copy">Wyślij ten link w wiadomości:</p>
           <p className="invitation-link invitation-link-big">{link}</p>
           <button className="bone-button confirm-button" type="button" onClick={handleCopy}>
             skopiuj link
           </button>
           <p className="auth-links">
-            <Link href="/dashboard">Wr\u00f3\u0107 do panelu</Link>
+            <Link href="/dashboard">Wróć do panelu</Link>
           </p>
         </section>
       </main>
@@ -70,7 +70,7 @@ export default function NewInvitationPage() {
         <h1>nowe zaproszenie</h1>
         <form className="auth-form" onSubmit={handleSubmit}>
           <label className="field">
-            <span>imi\u0119 odbiorczyni (opcjonalnie, tylko dla Ciebie)</span>
+            <span>imię odbiorczyni (opcjonalnie, tylko dla Ciebie)</span>
             <input
               type="text"
               value={recipientLabel}
@@ -80,11 +80,11 @@ export default function NewInvitationPage() {
           </label>
           {error ? <p className="soft-message error">{error}</p> : null}
           <button className="bone-button confirm-button" type="submit" disabled={status === "submitting"}>
-            {status === "submitting" ? "tworzenie..." : "utw\u00f3rz link"}
+            {status === "submitting" ? "tworzenie..." : "utwórz link"}
           </button>
         </form>
         <p className="auth-links">
-          <Link href="/dashboard">Wr\u00f3\u0107 do panelu</Link>
+          <Link href="/dashboard">Wróć do panelu</Link>
         </p>
       </section>
     </main>

@@ -28,7 +28,7 @@ export default function Dachshund({ mood = "sweet", escaping = false }) {
         <div className="leg leg-two" />
         <div className="leg leg-three" />
         <div className="leg leg-four" />
-        <div className="bow">{"\u2665"}</div>
+        <div className="bow">{"♥"}</div>
         {escaping ? <div className="stolen-bone">NIE</div> : null}
       </div>
     </div>

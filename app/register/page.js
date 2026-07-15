@@ -6,10 +6,10 @@ import Link from "next/link";
 
 const ERROR_MESSAGES = {
   invalid_email: "Podaj poprawny adres e-mail.",
-  invalid_password: "Has\u0142o musi mie\u0107 co najmniej 8 znak\u00f3w.",
-  terms_required: "Musisz zaakceptowa\u0107 Regulamin i Polityk\u0119 Prywatno\u015bci.",
-  email_taken: "Ten e-mail jest ju\u017c zarejestrowany.",
-  server_error: "Co\u015b posz\u0142o nie tak. Spr\u00f3buj ponownie."
+  invalid_password: "Hasło musi mieć co najmniej 8 znaków.",
+  terms_required: "Musisz zaakceptować Regulamin i Politykę Prywatności.",
+  email_taken: "Ten e-mail jest już zarejestrowany.",
+  server_error: "Coś poszło nie tak. Spróbuj ponownie."
 };
 
 export default function RegisterPage() {
@@ -27,7 +27,7 @@ export default function RegisterPage() {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      setError("Has\u0142a nie s\u0105 takie same.");
+      setError("Hasła nie są takie same.");
       return;
     }
 
@@ -67,7 +67,7 @@ export default function RegisterPage() {
     <main className="app-shell">
       <section className="date-card auth-card">
         <p className="kicker">jamnikowa randka</p>
-        <h1>za\u0142\u00f3\u017c konto</h1>
+        <h1>załóż konto</h1>
         <form className="auth-form" onSubmit={handleSubmit}>
           <label className="field">
             <span>e-mail</span>
@@ -81,7 +81,7 @@ export default function RegisterPage() {
           </label>
 
           <label className="field">
-            <span>has\u0142o</span>
+            <span>hasło</span>
             <input
               type="password"
               required
@@ -93,7 +93,7 @@ export default function RegisterPage() {
           </label>
 
           <label className="field">
-            <span>powt\u00f3rz has\u0142o</span>
+            <span>powtórz hasło</span>
             <input
               type="password"
               required
@@ -121,7 +121,7 @@ export default function RegisterPage() {
                 checked={phoneConsent}
                 onChange={(event) => setPhoneConsent(event.target.checked)}
               />
-              <span>Chc\u0119 dostawa\u0107 SMS, gdy dziewczyna odpowie na zaproszenie.</span>
+              <span>Chcę dostawać SMS, gdy dziewczyna odpowie na zaproszenie.</span>
             </label>
           ) : null}
 
@@ -133,19 +133,19 @@ export default function RegisterPage() {
               onChange={(event) => setTermsAccepted(event.target.checked)}
             />
             <span>
-              Akceptuj\u0119 <Link href="/regulamin">Regulamin</Link> i{" "}
-              <Link href="/polityka-prywatnosci">Polityk\u0119 Prywatno\u015bci</Link>.
+              Akceptuję <Link href="/regulamin">Regulamin</Link> i{" "}
+              <Link href="/polityka-prywatnosci">Politykę Prywatności</Link>.
             </span>
           </label>
 
           {error ? <p className="soft-message error">{error}</p> : null}
 
           <button className="bone-button confirm-button" type="submit" disabled={status === "submitting"}>
-            {status === "submitting" ? "zak\u0142adam konto..." : "za\u0142\u00f3\u017c konto"}
+            {status === "submitting" ? "zakładam konto..." : "załóż konto"}
           </button>
         </form>
         <p className="auth-links">
-          Masz ju\u017c konto? <Link href="/login">Zaloguj si\u0119</Link>
+          Masz już konto? <Link href="/login">Zaloguj się</Link>
         </p>
       </section>
     </main>

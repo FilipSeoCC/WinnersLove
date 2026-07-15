@@ -30,9 +30,9 @@ export default function InvitationCard({
           <Dachshund mood="happy" />
           <p className="kicker">hau, mamy to</p>
           <h1>
-            {initialRespondentName ? `${initialRespondentName}, ta` : "ta"} randka jest ju\u017c potwierdzona
+            {initialRespondentName ? `${initialRespondentName}, ta` : "ta"} randka jest już potwierdzona
           </h1>
-          <p className="success-copy">Um\u00f3wiony termin: {initialFormattedDate}.</p>
+          <p className="success-copy">Umówiony termin: {initialFormattedDate}.</p>
         </section>
       </main>
     );
@@ -44,9 +44,9 @@ export default function InvitationCard({
         <section className="date-card">
           <Dachshund mood="sweet" />
           <p className="kicker">jamnik rozumie</p>
-          <h1>odpowied\u017a zosta\u0142a ju\u017c zapisana</h1>
+          <h1>odpowiedź została już zapisana</h1>
           <p className="soft-message">
-            {initialRespondentName ? `Dzi\u0119ki, ${initialRespondentName}, \u017ce da\u0142a\u015b zna\u0107.` : "Dzi\u0119ki, \u017ce da\u0142a\u015b/da\u0142e\u015b zna\u0107."}
+            {initialRespondentName ? `Dzięki, ${initialRespondentName}, że dałaś znać.` : "Dzięki, że dałaś/dałeś znać."}
           </p>
         </section>
       </main>
@@ -156,7 +156,7 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
     if (recipientName.trim()) {
       return true;
     }
-    setMessage("najpierw wpisz swoje imi\u0119");
+    setMessage("najpierw wpisz swoje imię");
     return false;
   }
 
@@ -189,10 +189,10 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
     }
 
     setEscaping(true);
-    setMessage("hej, ta ko\u015b\u0107 w\u0142a\u015bnie zmieni\u0142a w\u0142a\u015bciciela");
+    setMessage("hej, ta kość właśnie zmieniła właściciela");
     window.setTimeout(() => {
       setEscaping(false);
-      setMessage("jamnik zostawi\u0142 tylko jedn\u0105 rozs\u0105dn\u0105 odpowied\u017a");
+      setMessage("jamnik zostawił tylko jedną rozsądną odpowiedź");
     }, 1350);
   }
 
@@ -262,7 +262,7 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
         if (data.error === "slot_taken") {
           sendingRef.current = false;
           setStatus("error");
-          setMessage("ten termin przed chwil\u0105 znikn\u0105\u0142 - wybierz inny");
+          setMessage("ten termin przed chwilą zniknął - wybierz inny");
           return;
         }
         throw new Error("Request failed");
@@ -274,7 +274,7 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
     } catch {
       sendingRef.current = false;
       setStatus("error");
-      setMessage("co\u015b posz\u0142o nie tak, ale jamnik nadal wierzy w t\u0119 randk\u0119");
+      setMessage("coś poszło nie tak, ale jamnik nadal wierzy w tę randkę");
     }
   }
 
@@ -284,8 +284,8 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
         <section className="date-card">
           <Dachshund mood="sweet" />
           <p className="kicker">jamnik rozumie</p>
-          <h1>dzi\u0119ki, \u017ce da\u0142a\u015b zna\u0107</h1>
-          <p className="soft-message">Twoja odpowied\u017a zosta\u0142a zapisana.</p>
+          <h1>dzięki, że dałaś znać</h1>
+          <p className="soft-message">Twoja odpowiedź została zapisana.</p>
         </section>
       </main>
     );
@@ -297,24 +297,24 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
       <Confetti active={step === "success"} />
       <section className={`date-card ${step === "success" ? "success-card" : ""}`}>
         <div className="sparkle-row" aria-hidden="true">
-          <span>{"\u2665"}</span>
-          <span>{"\u2726"}</span>
-          <span>{"\u2665"}</span>
+          <span>{"♥"}</span>
+          <span>{"✦"}</span>
+          <span>{"♥"}</span>
         </div>
 
         <div className={`panel question-panel ${step !== "question" ? "is-hidden" : ""}`}>
           <Dachshund mood={happy ? "happy" : "sweet"} escaping={escaping} />
-          <p className="kicker">ma\u0142a jamnikowa misja</p>
-          <h1>{recipientLabel ? `${recipientLabel}, czy` : "czy"} um\u00f3wisz si\u0119 na randk\u0119?</h1>
+          <p className="kicker">mała jamnikowa misja</p>
+          <h1>{recipientLabel ? `${recipientLabel}, czy` : "czy"} umówisz się na randkę?</h1>
 
           <label className="field name-field">
-            <span>jak masz na imi\u0119?</span>
+            <span>jak masz na imię?</span>
             <input
               type="text"
               required
               value={recipientName}
               onChange={(event) => setRecipientName(event.target.value)}
-              placeholder="wpisz imi\u0119"
+              placeholder="wpisz imię"
               maxLength={80}
             />
           </label>
@@ -335,7 +335,7 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
           </div>
           <p className="soft-message" aria-live="polite">{message}</p>
           <button className="link-button" type="button" onClick={handleDecline}>
-            nie, dzi\u0119kuj\u0119
+            nie, dziękuję
           </button>
         </div>
 
@@ -354,7 +354,7 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
             </label>
 
             <label>
-              <span>miesi\u0105c</span>
+              <span>miesiąc</span>
               <select value={month} onChange={(event) => setMonth(Number(event.target.value))}>
                 {months.map((item) => (
                   <option key={item.value} value={item.value}>{item.name}</option>
@@ -363,7 +363,7 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
             </label>
 
             <label>
-              <span>dzie\u0144</span>
+              <span>dzień</span>
               <select value={day} onChange={(event) => setDay(Number(event.target.value))}>
                 {days.map((item) => (
                   <option key={item} value={item}>{item}</option>
@@ -391,20 +391,20 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
               disabled={status === "sending"}
               onTouchEnd={submitDate}
             >
-              {status === "sending" ? "jamnik niesie wiadomo\u015b\u0107..." : "potwierdzam randk\u0119"}
+              {status === "sending" ? "jamnik niesie wiadomość..." : "potwierdzam randkę"}
             </button>
           </form>
           <p className="soft-message error" aria-live="polite">{message}</p>
           <button className="link-button" type="button" onClick={handleDecline}>
-            jednak nie, dzi\u0119kuj\u0119
+            jednak nie, dziękuję
           </button>
         </div>
 
         <div className={`panel success-panel ${step !== "success" ? "is-hidden" : ""}`}>
           <Dachshund mood="happy" />
           <p className="kicker">hau, mamy to</p>
-          <h1>randka zapisana! jamnik ju\u017c szykuje kokardk\u0119</h1>
-          <p className="success-copy">Termin polecia\u0142 mailem: {formattedDate}.</p>
+          <h1>randka zapisana! jamnik już szykuje kokardkę</h1>
+          <p className="success-copy">Termin poleciał mailem: {formattedDate}.</p>
         </div>
       </section>
     </main>

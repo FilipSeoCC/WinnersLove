@@ -12,7 +12,7 @@ export default async function InvitationPage({ params }) {
         <section className="date-card">
           <p className="kicker">jamnikowa randka</p>
           <h1>nie znaleziono zaproszenia</h1>
-          <p className="soft-message">Ten link jest nieprawid\u0142owy albo zaproszenie zosta\u0142o usuni\u0119te.</p>
+          <p className="soft-message">Ten link jest nieprawidłowy albo zaproszenie zostało usunięte.</p>
         </section>
       </main>
     );

@@ -4,9 +4,9 @@ import { getRedisClient } from "@/lib/redis";
 import DashboardActions from "./DashboardActions";
 
 const STATUS_LABELS = {
-  pending: "czeka na odpowied\u017a",
-  yes: "odpowiedzia\u0142a TAK",
-  no: "odpowiedzia\u0142a NIE"
+  pending: "czeka na odpowiedź",
+  yes: "odpowiedziała TAK",
+  no: "odpowiedziała NIE"
 };
 
 export default async function DashboardPage() {
@@ -21,7 +21,7 @@ export default async function DashboardPage() {
     <main className="app-shell">
       <section className="date-card dashboard-card">
         <p className="kicker">jamnikowa randka</p>
-        <h1>tw\u00f3j panel</h1>
+        <h1>twój panel</h1>
         <p className="dashboard-meta">Zalogowano jako {user.email}</p>
 
         <Link className="bone-button confirm-button" href="/dashboard/new">
@@ -29,7 +29,7 @@ export default async function DashboardPage() {
         </Link>
 
         {invitations.length === 0 ? (
-          <p className="soft-message">Nie masz jeszcze \u017cadnych zaprosze\u0144.</p>
+          <p className="soft-message">Nie masz jeszcze żadnych zaproszeń.</p>
         ) : (
           <ul className="invitation-list">
             {invitations.map((invitation) => (

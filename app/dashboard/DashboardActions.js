@@ -44,10 +44,10 @@ export default function DashboardActions() {
         pobierz moje dane
       </button>
       <button className="bone-button no-button" type="button" onClick={handleDelete} disabled={deleting}>
-        {confirmDelete ? "na pewno usun\u0105\u0107 konto?" : "usu\u0144 konto"}
+        {confirmDelete ? "na pewno usunąć konto?" : "usuń konto"}
       </button>
       <button className="bone-button no-button" type="button" onClick={handleLogout}>
-        wyloguj si\u0119
+        wyloguj się
       </button>
     </div>
   );

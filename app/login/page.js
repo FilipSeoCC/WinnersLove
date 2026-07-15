@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 const ERROR_MESSAGES = {
-  invalid_credentials: "Nieprawid\u0142owy e-mail lub has\u0142o.",
-  too_many_attempts: "Zbyt wiele nieudanych pr\u00f3b. Spr\u00f3buj ponownie za kilka minut.",
-  server_error: "Co\u015b posz\u0142o nie tak. Spr\u00f3buj ponownie."
+  invalid_credentials: "Nieprawidłowy e-mail lub hasło.",
+  too_many_attempts: "Zbyt wiele nieudanych prób. Spróbuj ponownie za kilka minut.",
+  server_error: "Coś poszło nie tak. Spróbuj ponownie."
 };
 
 function LoginForm() {
@@ -51,7 +51,7 @@ function LoginForm() {
     <main className="app-shell">
       <section className="date-card auth-card">
         <p className="kicker">jamnikowa randka</p>
-        <h1>zaloguj si\u0119</h1>
+        <h1>zaloguj się</h1>
         <form className="auth-form" onSubmit={handleSubmit}>
           <label className="field">
             <span>e-mail</span>
@@ -65,7 +65,7 @@ function LoginForm() {
           </label>
 
           <label className="field">
-            <span>has\u0142o</span>
+            <span>hasło</span>
             <input
               type="password"
               required
@@ -78,14 +78,14 @@ function LoginForm() {
           {error ? <p className="soft-message error">{error}</p> : null}
 
           <button className="bone-button confirm-button" type="submit" disabled={status === "submitting"}>
-            {status === "submitting" ? "logowanie..." : "zaloguj si\u0119"}
+            {status === "submitting" ? "logowanie..." : "zaloguj się"}
           </button>
         </form>
         <p className="auth-links">
-          <Link href="/reset-password">Zapomnia\u0142e\u015b/a\u015b has\u0142a?</Link>
+          <Link href="/reset-password">Zapomniałeś/aś hasła?</Link>
         </p>
         <p className="auth-links">
-          Nie masz konta? <Link href="/register">Zarejestruj si\u0119</Link>
+          Nie masz konta? <Link href="/register">Zarejestruj się</Link>
         </p>
       </section>
     </main>

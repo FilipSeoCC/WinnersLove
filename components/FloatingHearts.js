@@ -13,7 +13,7 @@ export default function FloatingHearts({ active }) {
             "--size": `${heartSizes[index]}px`
           }}
         >
-          {"\u2665"}
+          {"♥"}
         </span>
       ))}
     </div>
