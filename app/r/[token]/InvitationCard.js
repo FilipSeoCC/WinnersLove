@@ -67,7 +67,6 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
   const [happy, setHappy] = useState(false);
   const [escaping, setEscaping] = useState(false);
   const [escapeOffset, setEscapeOffset] = useState({ x: 90, y: -46 });
-  const [declined, setDeclined] = useState(false);
   const [year, setYear] = useState(minDate.getFullYear());
   const [month, setMonth] = useState(minDate.getMonth() + 1);
   const [day, setDay] = useState(minDate.getDate());
@@ -179,26 +178,6 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
     }, 900);
   }
 
-  async function handleDecline() {
-    if (sendingRef.current) {
-      return;
-    }
-    sendingRef.current = true;
-
-    try {
-      await fetch(`/api/invitations/${token}/respond`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answer: "no", submittedAt: new Date().toISOString() })
-      });
-    } catch {
-      // nawet jesli zapis w tle sie nie udal, i tak pokazujemy ekran zakonczenia -
-      // nie zmuszamy do ponownych prob, gdy decyzja juz zapadla
-    }
-
-    setDeclined(true);
-  }
-
   async function submitDate(event) {
     event.preventDefault();
 
@@ -247,19 +226,6 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
     }
   }
 
-  if (declined) {
-    return (
-      <main className="app-shell">
-        <section className="date-card">
-          <Dachshund mood="sweet" />
-          <p className="kicker">jamnik rozumie</p>
-          <h1>dzięki, że dałaś znać</h1>
-          <p className="soft-message">Twoja odpowiedź została zapisana.</p>
-        </section>
-      </main>
-    );
-  }
-
   return (
     <main className="app-shell">
       <FloatingHearts active={happy || step === "success"} />
@@ -292,9 +258,6 @@ function PendingInvitation({ token, recipientLabel, bookedSlots }) {
             </button>
           </div>
           <p className="soft-message" aria-live="polite">{message}</p>
-          <button className="link-button" type="button" onClick={handleDecline}>
-            nie, dziękuję
-          </button>
         </div>
 
         <div id="calendar" className={`panel calendar-panel ${step !== "calendar" ? "is-hidden" : ""}`}>

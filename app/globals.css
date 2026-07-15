@@ -726,25 +726,6 @@ input[type="tel"]:focus {
   text-decoration: underline;
 }
 
-.link-button {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: rgba(122, 47, 81, 0.4);
-  font-size: 0.78rem;
-  font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.link-button:hover,
-.link-button:focus-visible {
-  color: rgba(122, 47, 81, 0.7);
-  text-decoration: underline;
-}
-
 /* ---- Panel usera ---- */
 
 .dashboard-card {
