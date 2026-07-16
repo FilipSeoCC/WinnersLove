@@ -329,58 +329,34 @@ h1 {
 
 .dog {
   position: absolute;
-  right: 50%;
+  left: 50%;
   bottom: 15px;
-  width: 238px;
-  transform: translateX(50%);
+  transform: translateX(-50%);
   animation: dog-breathe 2.2s ease-in-out infinite;
   pointer-events: none;
 }
 
 .dog-image {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
+  max-height: 150px;
+  max-width: min(78vw, 340px);
   filter: drop-shadow(0 10px 14px rgba(122, 47, 81, 0.18));
-}
-
-.dog-tail {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 45.25%;
-  height: 100%;
-  transform-origin: 82% 68%;
-  animation: tail-wag 2.6s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.dog-tail img {
-  display: block;
-  width: 100%;
-  height: 100%;
 }
 
 .dog-happy .dog {
   animation: happy-hop 560ms ease-in-out infinite alternate;
 }
 
-.dog-happy .dog-tail {
-  animation: tail-wag 480ms ease-in-out infinite;
-}
-
 .dog-escape .dog {
   animation: run-away 1.3s cubic-bezier(.42, 0, .2, 1) forwards;
 }
 
-.dog-escape .dog-tail {
-  animation: tail-wag 220ms ease-in-out infinite;
-}
-
 .stolen-bone {
   position: absolute;
-  right: -10px;
-  bottom: 62px;
+  right: -6px;
+  bottom: 42%;
   width: 68px;
   height: 30px;
   display: grid;
@@ -560,12 +536,6 @@ select:focus {
   0% { transform: translateX(50%) translateY(0) rotate(0); }
   45% { transform: translateX(10%) translateY(-8px) rotate(-5deg); }
   100% { transform: translateX(220%) translateY(-18px) rotate(8deg); }
-}
-
-@keyframes tail-wag {
-  0%,
-  100% { transform: rotate(-5deg); }
-  50% { transform: rotate(6deg); }
 }
 
 @keyframes float-heart {

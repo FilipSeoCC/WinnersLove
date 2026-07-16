@@ -1,20 +1,25 @@
 import Image from "next/image";
 
+const MOOD_IMAGES = {
+  sweet: { src: "/dachshund-sweet.png", width: 265, height: 248 },
+  happy: { src: "/dachshund-happy.png", width: 449, height: 422 },
+  sad: { src: "/dachshund-sad.png", width: 485, height: 210 }
+};
+
 export default function Dachshund({ mood = "sweet", escaping = false }) {
+  const image = MOOD_IMAGES[mood] || MOOD_IMAGES.sweet;
+
   return (
     <div className={`dog-wrap ${mood === "happy" ? "dog-happy" : ""} ${escaping ? "dog-escape" : ""}`} aria-hidden="true">
       <div className="dog">
         <Image
           className="dog-image"
-          src="/dachshund.png"
+          src={image.src}
           alt=""
-          width={442}
-          height={242}
+          width={image.width}
+          height={image.height}
           priority
         />
-        <div className="dog-tail">
-          <Image src="/dachshund-tail.png" alt="" width={200} height={242} priority />
-        </div>
         {escaping ? <div className="stolen-bone">NIE</div> : null}
       </div>
     </div>

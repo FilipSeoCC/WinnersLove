@@ -39,7 +39,7 @@ export default function InvitationCard({
     return (
       <main className="app-shell">
         <section className="date-card">
-          <Dachshund mood="sweet" />
+          <Dachshund mood="sad" />
           <p className="kicker">jamnik rozumie</p>
           <h1>odpowiedź została już zapisana</h1>
           <p className="soft-message">Dzięki, że dałaś/dałeś znać.</p>
