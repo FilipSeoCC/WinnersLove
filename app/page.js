@@ -17,7 +17,7 @@ export default function LandingPage() {
         <h1>zamień zaproszenie na randkę w małą, jamnikową kartkę</h1>
         <p className="success-copy">
           Załóż konto, stwórz unikalny link i wyślij go w wiadomości. W panelu zobaczysz,
-          czy dostałeś prawdziwe TAK, czy prawdziwe NIE — bez żadnych sztuczek.
+          czy dostałeś potwierdzenie randki — bez żadnych sztuczek.
         </p>
         <div className="button-row">
           <Link className="bone-button yes-button" href="/register">

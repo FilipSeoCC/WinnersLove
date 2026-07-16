@@ -528,14 +528,14 @@ select:focus {
 }
 
 @keyframes happy-hop {
-  0% { transform: translateX(50%) translateY(0) rotate(-1deg); }
-  100% { transform: translateX(50%) translateY(-7px) rotate(1deg); }
+  0% { transform: translateX(-50%) translateY(0) rotate(-1deg); }
+  100% { transform: translateX(-50%) translateY(-7px) rotate(1deg); }
 }
 
 @keyframes run-away {
-  0% { transform: translateX(50%) translateY(0) rotate(0); }
-  45% { transform: translateX(10%) translateY(-8px) rotate(-5deg); }
-  100% { transform: translateX(220%) translateY(-18px) rotate(8deg); }
+  0% { transform: translateX(-50%) translateY(0) rotate(0); }
+  45% { transform: translateX(-90%) translateY(-8px) rotate(-5deg); }
+  100% { transform: translateX(120%) translateY(-18px) rotate(8deg); }
 }
 
 @keyframes float-heart {
@@ -854,6 +854,15 @@ input[type="tel"]:focus {
 
 .landing-card {
   text-align: center;
+}
+
+.landing-card .dog-wrap {
+  height: 230px;
+}
+
+.landing-card .dog-image {
+  max-height: 200px;
+  max-width: min(84vw, 380px);
 }
 
 @media (max-width: 390px) {
