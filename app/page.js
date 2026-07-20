@@ -31,6 +31,11 @@ export default function LandingPage() {
           <Link href="/regulamin">Regulamin</Link> ·{" "}
           <Link href="/polityka-prywatnosci">Polityka Prywatności</Link>
         </p>
+        <a className="aiops-credit" href="https://www.ai-ops.pl/" aria-label="Stworzone przez AiOps">
+          <span>Stworzone przez</span>
+          <img src="https://www.ai-ops.pl/aiops-logo.png" alt="AiOps" width="28" height="28" />
+          <strong>AiOps</strong>
+        </a>
       </section>
     </main>
   );

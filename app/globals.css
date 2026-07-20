@@ -696,6 +696,37 @@ input[type="tel"]:focus {
   text-decoration: underline;
 }
 
+.aiops-credit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 18px;
+  color: var(--soft-message-color);
+  font-size: 0.86rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+  opacity: 0.92;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.aiops-credit:hover,
+.aiops-credit:focus-visible {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.aiops-credit img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.aiops-credit strong {
+  color: var(--berry);
+}
+
 /* ---- Panel usera ---- */
 
 .dashboard-card {
